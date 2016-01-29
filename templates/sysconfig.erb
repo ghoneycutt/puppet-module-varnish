@@ -78,13 +78,13 @@ VARNISH_ADMIN_LISTEN_PORT=<%= @admin_listen_port %>
 VARNISH_SECRET_FILE=<%= @secret_file %>
 #
 # # The minimum number of worker threads to start
-VARNISH_MIN_THREADS=<% @min_threads %>
+VARNISH_MIN_THREADS=<%= @min_threads %>
 #
 # # The Maximum number of worker threads to start
-VARNISH_MAX_THREADS=<% @max_threads %>
+VARNISH_MAX_THREADS=<%= @max_threads %>
 #
 # # Idle timeout for worker threads
-VARNISH_THREAD_TIMEOUT=<% @thread_timeout %>
+VARNISH_THREAD_TIMEOUT=<%= @thread_timeout %>
 #
 # # Cache file location
 VARNISH_STORAGE_FILE=/var/lib/varnish/varnish_storage.bin
