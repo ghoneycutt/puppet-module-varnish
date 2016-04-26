@@ -83,7 +83,10 @@ class varnish(
   }
 
   if is_string($storage_size) == false {
-    fail('must be a string')
+    validate_re("${storage_size}", '^\d+$', 'must be a string or positive integer') # lint:ignore:only_variable_string
+    if $storage_size == 0 {
+      fail('must be a string or positive integer')
+    }
   }
 
   validate_re("${ttl}", '^\d+$', 'must be a positive integer or zero') # lint:ignore:only_variable_string
