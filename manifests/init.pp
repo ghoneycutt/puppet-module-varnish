@@ -37,6 +37,7 @@ class varnish(
 ) {
 
   validate_absolute_path($vcl_path)
+  validate_absolute_path($secret_file)
 
   if $::osfamily != 'RedHat' and $::lsbmajdistrelease != '6' {
     fail("Varnish supports osfamily RedHat with lsbmajdistrelease 6. Detected osfamily is <${::osfamily}> and lsbmajdistrelease is <${::lsbmajdistrelease}>.")
