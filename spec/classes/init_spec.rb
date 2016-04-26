@@ -21,7 +21,7 @@ describe 'varnish' do
 
     validations = {
       'absolute_path' => {
-        :name    => ['vcl_path','secret_file'],
+        :name    => ['vcl_path','secret_file','vcl_conf'],
         :valid   => ['/absolute/filepath','/absolute/directory/'],
         :invalid => ['invalid',3,2.42,['array'],a={'ha'=>'sh'}],
         :message => 'is not an absolute path',
