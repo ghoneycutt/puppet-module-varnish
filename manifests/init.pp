@@ -67,7 +67,9 @@ class varnish(
 
   validate_re($ttl, '^\d+$', "did not match regex pattern for an integer")
 
-  # @TODO: validate $user
+  if is_string($user) == false {
+    fail('must be a string')
+  }
 
   # @TODO: validate $group
 

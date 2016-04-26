@@ -38,7 +38,7 @@ describe 'varnish' do
         :message => 'did not match regex pattern for an integer',
       },
       'string' => {
-        :name    => ['storage','storage_size'],
+        :name    => ['storage','storage_size','user'],
         :valid   => ['string'],
         :invalid => [[], { 'ha' => 'sh' }, 3, 2.42, true, false],
         :message => 'must be a string',
