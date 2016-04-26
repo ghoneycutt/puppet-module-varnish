@@ -43,6 +43,7 @@ class varnish(
   validate_re($listen_port, '^\d+$', "did not match regex pattern for an integer")
   validate_re($max_threads, '^\d+$', "did not match regex pattern for an integer")
   validate_re($min_threads, '^\d+$', "did not match regex pattern for an integer")
+  validate_re($thread_timeout, '^\d+$', "did not match regex pattern for an integer")
 
   if $::osfamily != 'RedHat' and $::lsbmajdistrelease != '6' {
     fail("Varnish supports osfamily RedHat with lsbmajdistrelease 6. Detected osfamily is <${::osfamily}> and lsbmajdistrelease is <${::lsbmajdistrelease}>.")

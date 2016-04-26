@@ -15,7 +15,6 @@ describe 'varnish' do
   describe 'variable type and content validations' do
     let(:validation_params) do
       {
-        #:param => 'value',
       }
     end
 
@@ -27,7 +26,7 @@ describe 'varnish' do
         :message => 'is not an absolute path',
       },
       'regex_integer' => {
-        :name    => ['admin_listen_port','listen_port','max_threads','min_threads'],
+        :name    => ['admin_listen_port','listen_port','max_threads','min_threads','thread_timeout'],
         :valid   => [80, '80'],
         :invalid => ['foo',['array'],a={'ha'=>'sh'},true],
         :message => 'did not match regex pattern for an integer',
