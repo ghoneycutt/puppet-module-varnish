@@ -8,8 +8,43 @@ describe 'varnish' do
 
   context 'with defaults for all parameters' do
     it { should contain_class('varnish') }
-
     it { should compile.with_all_deps }
+    it {
+      should contain_package('varnish').with({
+        'ensure' => 'present',
+        'name'   => 'varnish',
+      })
+    }
+    it {
+      should contain_file('varnish_sysconfig').with({
+        'ensure' => 'file',
+        'path'   => '/etc/sysconfig/varnish',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+        'notify' => 'Service[varnish]',
+      })
+    }
+    it {
+      should contain_file('/etc/varnish/default.vcl').with({
+        'ensure' => 'file',
+        'path'   => '/etc/varnish/default.vcl',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0644',
+        'notify' => 'Exec[reload_vcl]',
+      })
+    }
+    it {
+      should contain_exec('reload_vcl').with_command('service varnish reload')
+    }
+    it {
+      should contain_service('varnish').with({
+        'ensure' => 'running',
+        'name'   => 'varnish',
+        'enable' => true,
+      })
+    }
   end
 
   describe 'variable type and content validations' do
