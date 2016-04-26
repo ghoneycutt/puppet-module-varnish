@@ -37,6 +37,12 @@ describe 'varnish' do
         :invalid => ['foo',['array'],a={'ha'=>'sh'},true],
         :message => 'did not match regex pattern for an integer',
       },
+      'string' => {
+        :name    => ['storage'],
+        :valid   => ['string'],
+        :invalid => [[], { 'ha' => 'sh' }, 3, 2.42, true, false],
+        :message => 'must be a string',
+      },
     }
 
     validations.sort.each do |type, var|

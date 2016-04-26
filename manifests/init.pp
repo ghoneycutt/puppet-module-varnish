@@ -27,7 +27,7 @@ class varnish(
   $max_threads          = 1000,
   $thread_timeout       = 120,
   $secret_file          = '/etc/varnish/secret',
-  $storage              = 'file,${VARNISH_STORAGE_FILE},${VARNISH_STORAGE_SIZE}',
+  $storage              = 'file,${VARNISH_STORAGE_FILE},${VARNISH_STORAGE_SIZE}', #'
   $storage_size         = '1G',
   $ttl                  = '120',
   $user                 = 'varnish',
@@ -36,24 +36,43 @@ class varnish(
   $vcl_conf             = '/etc/varnish/default.vcl',
 ) {
 
+  # validate parameters
   validate_bool($manage_default_vcl)
+
   validate_absolute_path($vcl_path)
+
   # @TODO: validate $admin_listen_address
+
   validate_re($admin_listen_port, '^\d+$', "did not match regex pattern for an integer")
+
   # @TODO: validate $listen_address
+
   validate_re($listen_port, '^\d+$', "did not match regex pattern for an integer")
+
   validate_re($min_threads, '^\d+$', "did not match regex pattern for an integer")
+
   validate_re($max_threads, '^\d+$', "did not match regex pattern for an integer")
+
   validate_re($thread_timeout, '^\d+$', "did not match regex pattern for an integer")
+
   validate_absolute_path($secret_file)
-  # @TODO: validate $storage
+
+  if is_string($storage) == false {
+    fail('must be a string')
+  }
   # @TODO: validate $storage_size
+
   # @TODO: validate $ttl
+
   # @TODO: validate $user
+
   # @TODO: validate $group
+
   # @TODO: validate $varnishd_params
+
   validate_absolute_path($vcl_conf)
 
+  #
   if $::osfamily != 'RedHat' and $::lsbmajdistrelease != '6' {
     fail("Varnish supports osfamily RedHat with lsbmajdistrelease 6. Detected osfamily is <${::osfamily}> and lsbmajdistrelease is <${::lsbmajdistrelease}>.")
   }
