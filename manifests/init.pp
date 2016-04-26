@@ -41,7 +41,9 @@ class varnish(
 
   validate_absolute_path($vcl_path)
 
-  # @TODO: validate $admin_listen_address
+  if is_ip_address($admin_listen_address) == false {
+    fail('must be a valid IP address')
+  }
 
   validate_re($admin_listen_port, '^\d+$', "did not match regex pattern for an integer")
 
@@ -75,7 +77,7 @@ class varnish(
     fail('must be a string')
   }
 
-  # @TODO: validate $varnishd_params
+  validate_string($varnishd_params)
 
   validate_absolute_path($vcl_conf)
 

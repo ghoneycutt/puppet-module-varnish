@@ -37,6 +37,12 @@ describe 'varnish' do
         :invalid => ['foo',['array'],a={'ha'=>'sh'},true],
         :message => 'did not match regex pattern for an integer',
       },
+      'ip_address' => {
+        :name    => ['admin_listen_address'],
+        :valid   => ['127.0.0.1'],
+        :invalid => ['string','0.0.0','0.0.0.0.0','127.0.0.257',['array'],a={'ha'=>'sh'},3,2.42,nil],
+        :message => 'must be a valid IP address',
+      },
       'string' => {
         :name    => ['group','storage','storage_size','user'],
         :valid   => ['string'],
