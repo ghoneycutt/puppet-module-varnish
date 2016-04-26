@@ -45,17 +45,21 @@ class varnish(
     fail('must be a valid IP address')
   }
 
-  validate_re($admin_listen_port, '^\d+$', "did not match regex pattern for an integer")
+  validate_re("${admin_listen_port}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
 
-  # @TODO: validate $listen_address
+  if $listen_address != undef {
+    if is_ip_address($listen_address) == false {
+      fail('must be a valid IP address or undef')
+    }
+  }
 
-  validate_re($listen_port, '^\d+$', "did not match regex pattern for an integer")
+  validate_re("${listen_port}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
 
-  validate_re($min_threads, '^\d+$', "did not match regex pattern for an integer")
+  validate_re("${min_threads}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
 
-  validate_re($max_threads, '^\d+$', "did not match regex pattern for an integer")
+  validate_re("${max_threads}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
 
-  validate_re($thread_timeout, '^\d+$', "did not match regex pattern for an integer")
+  validate_re("${thread_timeout}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
 
   validate_absolute_path($secret_file)
 
@@ -67,7 +71,7 @@ class varnish(
     fail('must be a string')
   }
 
-  validate_re($ttl, '^\d+$', "did not match regex pattern for an integer")
+  validate_re("${ttl}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
 
   if is_string($user) == false {
     fail('must be a string')
