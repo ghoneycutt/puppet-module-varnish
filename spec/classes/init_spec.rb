@@ -27,7 +27,7 @@ describe 'varnish' do
         :message => 'is not an absolute path',
       },
       'regex_integer' => {
-        :name    => ['admin_listen_port','listen_port'],
+        :name    => ['admin_listen_port','listen_port','max_threads'],
         :valid   => [80, '80'],
         :invalid => ['foo',['array'],a={'ha'=>'sh'},true],
         :message => 'did not match regex pattern for an integer',
