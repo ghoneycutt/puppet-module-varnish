@@ -36,6 +36,7 @@ class varnish(
   $vcl_conf             = '/etc/varnish/default.vcl',
 ) {
 
+  validate_bool($manage_default_vcl)
   validate_absolute_path($vcl_path)
   validate_re($admin_listen_port, '^\d+$', "did not match regex pattern for an integer")
   validate_re($listen_port, '^\d+$', "did not match regex pattern for an integer")

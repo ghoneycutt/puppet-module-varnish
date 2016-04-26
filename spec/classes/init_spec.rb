@@ -25,6 +25,12 @@ describe 'varnish' do
         :invalid => ['invalid',3,2.42,['array'],a={'ha'=>'sh'}],
         :message => 'is not an absolute path',
       },
+      'boolean' => {
+        :name    => ['manage_default_vcl'],
+        :valid   => [true,false],
+        :invalid => ['string',['array'],a={'ha'=>'sh'},3,2.42,nil],
+        :message => 'is not a boolean',
+      },
       'regex_integer' => {
         :name    => ['admin_listen_port','listen_port','max_threads','min_threads','thread_timeout'],
         :valid   => [80, '80'],
