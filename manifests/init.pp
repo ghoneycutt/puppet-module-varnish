@@ -71,7 +71,9 @@ class varnish(
     fail('must be a string')
   }
 
-  # @TODO: validate $group
+  if is_string($group) == false {
+    fail('must be a string')
+  }
 
   # @TODO: validate $varnishd_params
 
