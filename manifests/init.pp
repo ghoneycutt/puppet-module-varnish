@@ -65,7 +65,7 @@ class varnish(
     fail('must be a string')
   }
 
-  # @TODO: validate $ttl
+  validate_re($ttl, '^\d+$', "did not match regex pattern for an integer")
 
   # @TODO: validate $user
 

@@ -31,8 +31,8 @@ describe 'varnish' do
         :invalid => ['string',['array'],a={'ha'=>'sh'},3,2.42,nil],
         :message => 'is not a boolean',
       },
-      'regex_integer' => {
-        :name    => ['admin_listen_port','listen_port','max_threads','min_threads','thread_timeout'],
+      'integer' => {
+        :name    => ['admin_listen_port','listen_port','max_threads','min_threads','thread_timeout','ttl'],
         :valid   => [80, '80'],
         :invalid => ['foo',['array'],a={'ha'=>'sh'},true],
         :message => 'did not match regex pattern for an integer',
