@@ -60,7 +60,10 @@ class varnish(
   if is_string($storage) == false {
     fail('must be a string')
   }
-  # @TODO: validate $storage_size
+
+  if is_string($storage_size) == false {
+    fail('must be a string')
+  }
 
   # @TODO: validate $ttl
 
