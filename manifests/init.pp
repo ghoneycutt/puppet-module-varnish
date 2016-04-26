@@ -27,7 +27,7 @@ class varnish(
   $max_threads          = 1000,
   $thread_timeout       = 120,
   $secret_file          = '/etc/varnish/secret',
-  $storage              = 'file,${VARNISH_STORAGE_FILE},${VARNISH_STORAGE_SIZE}', #'
+  $storage              = 'file,${VARNISH_STORAGE_FILE},${VARNISH_STORAGE_SIZE}',
   $storage_size         = '1G',
   $ttl                  = '120',
   $user                 = 'varnish',
@@ -99,7 +99,9 @@ class varnish(
     fail('must be a string')
   }
 
-  validate_string($varnishd_params)
+  if $varnishd_params != undef {
+    validate_array($varnishd_params)
+  }
 
   validate_absolute_path($vcl_conf)
 

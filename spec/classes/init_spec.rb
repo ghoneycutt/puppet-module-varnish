@@ -60,6 +60,12 @@ describe 'varnish' do
         :invalid => ['invalid', 3, 2.42, ['array'], a={'ha'=>'sh'}],
         :message => 'is not an absolute path',
       },
+      'array' => {
+        :name    => ['varnishd_params'],
+        :valid   => [['array']],
+        :invalid => ['string', a={'ha'=>'sh'}, 3, 2.42, nil],
+        :message => 'is not an Array',
+      },
       'boolean' => {
         :name    => ['manage_default_vcl'],
         :valid   => [true,false],
