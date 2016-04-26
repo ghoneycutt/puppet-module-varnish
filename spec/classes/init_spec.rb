@@ -66,13 +66,19 @@ describe 'varnish' do
         :invalid => ['string',['array'],a={'ha'=>'sh'},3,2.42,nil],
         :message => 'is not a boolean',
       },
-      'integer' => {
-        :name    => ['admin_listen_port','listen_port','max_threads','min_threads','thread_timeout','ttl'],
-        :valid   => [80, '80'],
-        :invalid => ['foo',['array'],a={'ha'=>'sh'},true],
-        :message => 'did not match regex pattern for an integer',
+      'integer_including_zero' => {
+        :name    => ['ttl'],
+        :valid   => [80,'80',0],
+        :invalid => [-1,'foo',['array'],a={'ha'=>'sh'},true],
+        :message => 'must be a positive integer or zero',
       },
-      'ip_address' => {
+      'integer_nonzero' => {
+        :name    => ['max_threads','min_threads','thread_timeout'],
+        :valid   => [80,'80'],
+        :invalid => [0,-1,'foo',['array'],a={'ha'=>'sh'},true],
+        :message => 'must be a non-zero integer',
+      },
+      'ip_address_required' => {
         :name    => ['admin_listen_address'],
         :valid   => ['127.0.0.1'],
         :invalid => ['string','0.0.0','0.0.0.0.0','127.0.0.257',['array'],a={'ha'=>'sh'},3,2.42,nil],
@@ -83,6 +89,12 @@ describe 'varnish' do
         :valid   => ['127.0.0.1'],
         :invalid => ['string','0.0.0','0.0.0.0.0','127.0.0.257',['array'],a={'ha'=>'sh'},3,2.42],
         :message => 'must be a valid IP address or undef',
+      },
+      'server_port' => {
+        :name    => ['admin_listen_port','listen_port'],
+        :valid   => [80,'80'],
+        :invalid => [0,-1,'foo',['array'],a={'ha'=>'sh'},true],
+        :message => 'is not a valid server port',
       },
       'string' => {
         :name    => ['group','storage','storage_size','user'],

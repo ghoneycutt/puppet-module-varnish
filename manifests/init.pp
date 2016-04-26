@@ -45,7 +45,10 @@ class varnish(
     fail('must be a valid IP address')
   }
 
-  validate_re("${admin_listen_port}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
+  validate_re("${admin_listen_port}", '^\d+$', 'is not a valid server port') # lint:ignore:only_variable_string
+  if $admin_listen_port == 0 {
+    fail('is not a valid server port')
+  }
 
   if $listen_address != undef {
     if is_ip_address($listen_address) == false {
@@ -53,13 +56,25 @@ class varnish(
     }
   }
 
-  validate_re("${listen_port}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
+  validate_re("${listen_port}", '^\d+$', 'is not a valid server port') # lint:ignore:only_variable_string
+  if $listen_port == 0 {
+    fail('is not a valid server port')
+  }
 
-  validate_re("${min_threads}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
+  validate_re("${min_threads}", '^\d+$', 'must be a non-zero integer') # lint:ignore:only_variable_string
+  if $min_threads == 0 {
+    fail('must be a non-zero integer')
+  }
 
-  validate_re("${max_threads}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
+  validate_re("${max_threads}", '^\d+$', 'must be a non-zero integer') # lint:ignore:only_variable_string
+  if $max_threads == 0 {
+    fail('must be a non-zero integer')
+  }
 
-  validate_re("${thread_timeout}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
+  validate_re("${thread_timeout}", '^\d+$', 'must be a non-zero integer') # lint:ignore:only_variable_string
+  if $thread_timeout == 0 {
+    fail('must be a non-zero integer')
+  }
 
   validate_absolute_path($secret_file)
 
@@ -71,7 +86,7 @@ class varnish(
     fail('must be a string')
   }
 
-  validate_re("${ttl}", '^\d+$', 'did not match regex pattern for an integer') # lint:ignore:only_variable_string
+  validate_re("${ttl}", '^\d+$', 'must be a positive integer or zero') # lint:ignore:only_variable_string
 
   if is_string($user) == false {
     fail('must be a string')
