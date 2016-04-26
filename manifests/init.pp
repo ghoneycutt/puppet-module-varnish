@@ -38,12 +38,20 @@ class varnish(
 
   validate_bool($manage_default_vcl)
   validate_absolute_path($vcl_path)
+  # @TODO: validate $admin_listen_address
   validate_re($admin_listen_port, '^\d+$', "did not match regex pattern for an integer")
+  # @TODO: validate $listen_address
   validate_re($listen_port, '^\d+$', "did not match regex pattern for an integer")
   validate_re($min_threads, '^\d+$', "did not match regex pattern for an integer")
   validate_re($max_threads, '^\d+$', "did not match regex pattern for an integer")
   validate_re($thread_timeout, '^\d+$', "did not match regex pattern for an integer")
   validate_absolute_path($secret_file)
+  # @TODO: validate $storage
+  # @TODO: validate $storage_size
+  # @TODO: validate $ttl
+  # @TODO: validate $user
+  # @TODO: validate $group
+  # @TODO: validate $varnishd_params
   validate_absolute_path($vcl_conf)
 
   if $::osfamily != 'RedHat' and $::lsbmajdistrelease != '6' {
