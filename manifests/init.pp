@@ -79,8 +79,9 @@ class varnish(
   validate_absolute_path($secret_file)
 
   if is_string($storage) == false {
-    fail('must be a string')
+    fail('storage type must be either file or malloc')
   }
+  validate_re("${storage}", '^[file|malloc]', 'storage type must be either file or malloc') # lint:ignore:only_variable_string
 
   if is_string($storage_size) == false {
     validate_re("${storage_size}", '^\d+$', 'must be a string or positive integer') # lint:ignore:only_variable_string

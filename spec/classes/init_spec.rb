@@ -102,8 +102,14 @@ describe 'varnish' do
         :invalid => [0,-1, 'foo',['array'], a={'ha'=>'sh'}, true],
         :message => 'is not a valid server port',
       },
+      'storage_types' => {
+        :name    => ['storage'],
+        :valid   => ['file', 'malloc'],
+        :invalid => ['string', [], {'ha'=>'sh'}, 3, 2.42, true, false],
+        :message => 'storage type must be either file or malloc',
+      },
       'string' => {
-        :name    => ['group', 'storage', 'user'],
+        :name    => ['group', 'user'],
         :valid   => ['string'],
         :invalid => [[], {'ha'=>'sh'}, 3, 2.42, true, false],
         :message => 'must be a string',
