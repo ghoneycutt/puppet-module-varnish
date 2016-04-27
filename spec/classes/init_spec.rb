@@ -106,7 +106,7 @@ describe 'varnish' do
         :name    => ['storage'],
         :valid   => ['file', 'malloc'],
         :invalid => ['string', [], {'ha'=>'sh'}, 3, 2.42, true, false],
-        :message => 'storage type must be either file or malloc',
+        :message => 'must be either file or malloc',
       },
       'string' => {
         :name    => ['group', 'user'],

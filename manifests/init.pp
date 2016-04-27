@@ -27,7 +27,7 @@ class varnish(
   $max_threads          = 1000,
   $thread_timeout       = 120,
   $secret_file          = '/etc/varnish/secret',
-  $storage              = 'file,${VARNISH_STORAGE_FILE},${VARNISH_STORAGE_SIZE}',
+  $storage              = 'file,${VARNISH_STORAGE_FILE},${VARNISH_STORAGE_SIZE}', #'
   $storage_size         = '1G',
   $ttl                  = '120',
   $user                 = 'varnish',
@@ -42,62 +42,62 @@ class varnish(
   validate_absolute_path($vcl_path)
 
   if is_ip_address($admin_listen_address) == false {
-    fail('must be a valid IP address')
+    fail("::varnish::admin_listen_address must be a valid IP address. Detected value is <${::varnish::admin_listen_address}>")
   }
 
-  validate_re("${admin_listen_port}", '^\d+$', 'is not a valid server port') # lint:ignore:only_variable_string
+  validate_re("${admin_listen_port}", '^\d+$', "::varnish::admin_list_port is not a valid server port. Detected value is <${::varnish::admin_list_port}>") # lint:ignore:only_variable_string
   if $admin_listen_port == 0 {
-    fail('is not a valid server port')
+    fail("::varnish::admin_list_port is not a valid server port. Detected value is <${::varnish::admin_list_port}>")
   }
 
   if $listen_address != undef {
     if is_ip_address($listen_address) == false {
-      fail('must be a valid IP address or undef')
+      fail("::varnish::listen_address must be a valid IP address or undef. Detected value is <${::varnish::listen_address}>")
     }
   }
 
   validate_re("${listen_port}", '^\d+$', 'is not a valid server port') # lint:ignore:only_variable_string
   if $listen_port == 0 {
-    fail('is not a valid server port')
+    fail("::varnish::listen_port is not a valid server port. Detected value is <${::varnish::listen_port}>")
   }
 
   validate_re("${min_threads}", '^\d+$', 'must be a non-zero integer') # lint:ignore:only_variable_string
   if $min_threads == 0 {
-    fail('must be a non-zero integer')
+    fail("::varnish::min_threads must be a non-zero integer. Detected value is <${::varnish::min_threads}>")
   }
 
   validate_re("${max_threads}", '^\d+$', 'must be a non-zero integer') # lint:ignore:only_variable_string
   if $max_threads == 0 {
-    fail('must be a non-zero integer')
+    fail("::varnish::max_threads must be a non-zero integer. Detected value is <${::varnish::max_threads}>")
   }
 
   validate_re("${thread_timeout}", '^\d+$', 'must be a non-zero integer') # lint:ignore:only_variable_string
   if $thread_timeout == 0 {
-    fail('must be a non-zero integer')
+    fail("::varnish::thread_timeout must be a non-zero integer. Detected value is <${::varnish::thread_timeout}>")
   }
 
   validate_absolute_path($secret_file)
 
   if is_string($storage) == false {
-    fail('storage type must be either file or malloc')
+    fail("::varnish::storage must be either file or malloc. Detected value is <${::varnish::storage}>")
   }
-  validate_re("${storage}", '^[file|malloc]', 'storage type must be either file or malloc') # lint:ignore:only_variable_string
+  validate_re("${storage}", '^[file|malloc]', "::varnish::storage must be either file or malloc. Detected value is <${::varnish::storage}>") # lint:ignore:only_variable_string
 
   if is_string($storage_size) == false {
-    validate_re("${storage_size}", '^\d+$', 'must be a string or positive integer') # lint:ignore:only_variable_string
+    validate_re("${storage_size}", '^\d+$', "::varnish::storage_size must be a string or positive integer. Detected value is <${::varnish::storage_size}>") # lint:ignore:only_variable_string
     if $storage_size == 0 {
-      fail('must be a string or positive integer')
+      fail("::varnish::storage_size must be a string or positive integer. Detected value is <${::varnish::storage_size}>")
     }
   }
 
-  validate_re("${ttl}", '^\d+$', 'must be a positive integer or zero') # lint:ignore:only_variable_string
+  validate_re("${ttl}", '^\d+$', "::varnish::ttl must be a positive integer or zero. Detected value is <${::varnish::ttl}>") # lint:ignore:only_variable_string
 
   if is_string($user) == false {
-    fail('must be a string')
+    fail("::varnish::user must be a string. Detected value is <${::varnish::user}>")
   }
 
   if is_string($group) == false {
-    fail('must be a string')
+    fail("::varnish::group must be a string. Detected value is <${::varnish::group}>")
   }
 
   if $varnishd_params != undef {
