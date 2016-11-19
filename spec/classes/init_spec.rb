@@ -16,28 +16,50 @@ describe 'varnish' do
         'name'   => 'varnish',
       })
     end
+
     it do
       should contain_file('varnish_sysconfig').with({
         'ensure' => 'file',
         'path'   => '/etc/sysconfig/varnish',
+        'content' => File.read(fixtures('sysconfig.default')),
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
         'notify' => 'Service[varnish]',
       })
     end
+
+    content = <<-END.gsub(/^\s+\|/, '')
+      |# This file is being maintained by Puppet.
+      |# DO NOT EDIT
+      |#
+      |# This is a basic VCL configuration file for varnish.  See the vcl(7)
+      |# man page for details on VCL syntax and semantics.
+      |#
+      |# Default backend definition.  Set this to point to your content
+      |# server.
+      |#
+      |backend default {
+      |  .host = "";
+      |  .port = "6081";
+      |}
+    END
     it do
       should contain_file('/etc/varnish/default.vcl').with({
         'ensure' => 'file',
-        'path'   => '/etc/varnish/default.vcl',
         'owner'  => 'root',
         'group'  => 'root',
         'mode'   => '0644',
+        'content' => content,
         'notify' => 'Exec[reload_vcl]',
       })
     end
     it do
-      should contain_exec('reload_vcl').with_command('service varnish reload')
+      should contain_exec('reload_vcl').with({
+        'command'     => 'service varnish reload',
+        'path'        => '/bin:/usr/bin:/sbin:/usr/sbin',
+        'refreshonly' => true,
+      })
     end
     it do
       should contain_service('varnish').with({
