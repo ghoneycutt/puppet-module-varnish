@@ -70,6 +70,111 @@ describe 'varnish' do
     end
   end
 
+  context 'with manage_default_vcl set to valid false' do
+    let(:params) { { :manage_default_vcl => false } }
+    it { should_not contain_file('/etc/varnish/default.vcl') }
+  end
+
+  # vcl_path does not trigger functionality in varnish class
+  context 'with vcl_path set to valid string /opt/varnish/etc' do
+    let(:params) { { :vcl_path => '/opt/varnish/etc' } }
+    it { should compile.with_all_deps }
+  end
+
+  context 'with admin_listen_address set to valid string 2.4.2.242' do
+    let(:params) { { :admin_listen_address => '2.4.2.242' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^VARNISH_ADMIN_LISTEN_ADDRESS=2.4.2.242$/) }
+  end
+
+  context 'with admin_listen_port set to valid string 242' do
+    let(:params) { { :admin_listen_port => '242' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^VARNISH_ADMIN_LISTEN_PORT=242$/) }
+  end
+
+  context 'with listen_address set to valid string 2.4.2.242' do
+    let(:params) { { :listen_address => '2.4.2.242' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^VARNISH_LISTEN_ADDRESS=2.4.2.242$/) }
+  end
+
+  context 'with listen_port set to valid string 242' do
+    let(:params) { { :listen_port => '242' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^VARNISH_LISTEN_PORT=242$/) }
+  end
+
+  context 'with min_threads set to valid string 242' do
+    let(:params) { { :min_threads => '242' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^VARNISH_MIN_THREADS=242$/) }
+  end
+
+  context 'with max_threads set to valid string 242' do
+    let(:params) { { :max_threads => '242' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^VARNISH_MAX_THREADS=242$/) }
+  end
+
+  context 'with thread_timeout set to valid string 242' do
+    let(:params) { { :thread_timeout => '242' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^VARNISH_THREAD_TIMEOUT=242$/) }
+  end
+
+  context 'with secret_file set to valid string /opt/varnish/secret' do
+    let(:params) { { :secret_file => '/opt/varnish/secret' } }
+    it { should contain_file('varnish_sysconfig').with_content(%r{^VARNISH_SECRET_FILE=/opt/varnish/secret$}) }
+  end
+
+  context 'with storage set to valid string malloc,100M' do
+    let(:params) { { :storage => 'malloc,100M' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^VARNISH_STORAGE="malloc,100M"$/) }
+  end
+
+  context 'with storage_size set to valid string 242G' do
+    let(:params) { { :storage_size => '242G' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^VARNISH_STORAGE_SIZE=242G$/) }
+  end
+
+  context 'with ttl set to valid string 242' do
+    let(:params) { { :ttl => '242' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^VARNISH_TTL=242$/) }
+  end
+
+  context 'with user set to valid string user' do
+    let(:params) { { :user => 'user' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^\s*-u user -g varnish \\$/) }
+  end
+
+  context 'with group set to valid string group' do
+    let(:params) { { :group => 'group' } }
+    it { should contain_file('varnish_sysconfig').with_content(/^\s*-u varnish -g group \\$/) }
+  end
+
+  context 'with varnishd_params set to valid array %w(param1)' do
+    let(:params) { { :varnishd_params => %w(param1) } }
+    it { should contain_file('varnish_sysconfig').with_content(/^\s*-p param1\"$/) }
+  end
+
+  context 'with varnishd_params set to valid array %w(param1 param2 param3)' do
+    let(:params) { { :varnishd_params => %w(param1 param2 param3) } }
+    it { should contain_file('varnish_sysconfig').with_content(/^\s*-p param1 -p param2 -p param3\"$/) }
+  end
+
+  context 'with vcl_conf set to valid string /opt/varnish/etc/default.vcl' do
+    let(:params) { { :vcl_conf => '/opt/varnish/etc/default.vcl' } }
+    it { should contain_file('/opt/varnish/etc/default.vcl') }
+    it { should contain_file('varnish_sysconfig').with_content(%r{^VARNISH_VCL_CONF=/opt/varnish/etc/default.vcl$}) }
+  end
+
+  context 'when ith vcl_conf set to valid string /opt/varnish/etc/default.vcl' do
+    let(:params) { { :vcl_conf => '/opt/varnish/etc/default.vcl' } }
+    it { should contain_file('/opt/varnish/etc/default.vcl') }
+    it { should contain_file('varnish_sysconfig').with_content(%r{^VARNISH_VCL_CONF=/opt/varnish/etc/default.vcl$}) }
+  end
+
+  context 'with default params on unsupported OS family C64' do
+    let(:facts) { { :osfamily => 'C64', :lsbmajdistrelease => nil } }
+    it 'should fail' do
+      expect { should contain_class(subject) }.to raise_error(Puppet::Error, /Varnish supports osfamily RedHat with lsbmajdistrelease 6/)
+    end
+  end
+
   describe 'variable type and content validations' do
     validations = {
       'absolute_path' => {
