@@ -88,13 +88,15 @@ describe 'varnish' do
       'ip_address_required' => {
         :name    => %w(admin_listen_address),
         :valid   => %w(127.0.0.1),
-        :invalid => ['string', '0.0.0', '0.0.0.0.0', '127.0.0.257', %w(array), { 'ha' => 'sh' }, 3, 2.42, nil],
+        # /!\ removed fixnum from invalid as Ruby 1.8.7 does accept them as valid IP addresses
+        :invalid => ['string', '0.0.0', '0.0.0.0.0', '127.0.0.257', %w(array), { 'ha' => 'sh' }, 2.42, nil],
         :message => 'must be a valid IP address',
       },
       'ip_address_optional' => {
         :name    => %w(listen_address),
         :valid   => %w(127.0.0.1),
-        :invalid => ['string', '0.0.0', '0.0.0.0.0', '127.0.0.257', %w(array), { 'ha' => 'sh' }, 3, 2.42],
+        # /!\ removed fixnum from invalid as Ruby 1.8.7 does accept them as valid IP addresses
+        :invalid => ['string', '0.0.0', '0.0.0.0.0', '127.0.0.257', %w(array), { 'ha' => 'sh' }, 2.42],
         :message => 'must be a valid IP address or undef',
       },
       'server_port' => {
