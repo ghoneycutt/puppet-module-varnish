@@ -66,7 +66,7 @@ VARNISH_VCL_CONF=<%= @vcl_conf %>
 # # Blank address means all IPv4 and IPv6 interfaces, otherwise specify
 # # a host name, an IPv4 dotted quad, or an IPv6 address in brackets.
 <% if @listen_address != nil -%>
-VARNISH_LISTEN_ADDRESS=<%= @listen_address -%>
+VARNISH_LISTEN_ADDRESS=<%= @listen_address %>
 <% end -%>
 VARNISH_LISTEN_PORT=<%= @listen_port %>
 #
