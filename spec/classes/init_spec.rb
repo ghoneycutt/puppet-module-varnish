@@ -49,11 +49,6 @@ describe 'varnish' do
   end
 
   describe 'variable type and content validations' do
-    let(:validation_params) do
-      {
-      }
-    end
-
     validations = {
       'absolute_path' => {
         :name    => %w(secret_file vcl_conf vcl_path),
@@ -127,24 +122,24 @@ describe 'varnish' do
 
     validations.sort.each do |type, var|
       var[:name].each do |var_name|
+        mandatory_params = {} if mandatory_params.nil?
+        var[:params] = {} if var[:params].nil?
         var[:valid].each do |valid|
-          context "with #{var_name} (#{type}) set to valid #{valid} (as #{valid.class})" do
-            let(:params) { validation_params.merge({ :"#{var_name}" => valid, }) }
+          context "when #{var_name} (#{type}) is set to valid #{valid} (as #{valid.class})" do
+            let(:params) { [mandatory_params, var[:params], { :"#{var_name}" => valid, }].reduce(:merge) }
             it { should compile }
           end
         end
 
         var[:invalid].each do |invalid|
-          context "with #{var_name} (#{type}) set to invalid #{invalid} (as #{invalid.class})" do
-            let(:params) { validation_params.merge({ :"#{var_name}" => invalid, }) }
+          context "when #{var_name} (#{type}) is set to invalid #{invalid} (as #{invalid.class})" do
+            let(:params) { [mandatory_params, var[:params], { :"#{var_name}" => invalid, }].reduce(:merge) }
             it 'should fail' do
-              expect do
-                should contain_class(subject)
-              end.to raise_error(Puppet::Error, /#{var[:message]}/)
+              expect { should contain_class(subject) }.to raise_error(Puppet::Error, /#{var[:message]}/)
             end
           end
         end
       end # var[:name].each
     end # validations.sort.each
-  end # describe
+  end # describe 'variable type and content validations'
 end
