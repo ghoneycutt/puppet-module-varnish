@@ -45,9 +45,9 @@ class varnish(
     fail("::varnish::admin_listen_address must be a valid IP address. Detected value is <${::varnish::admin_listen_address}>")
   }
 
-  validate_re("${admin_listen_port}", '^\d+$', "::varnish::admin_list_port is not a valid server port. Detected value is <${::varnish::admin_list_port}>") # lint:ignore:only_variable_string
+  validate_re("${admin_listen_port}", '^\d+$', "::varnish::admin_listen_port is not a valid server port. Detected value is <${::varnish::admin_listen_port}>") # lint:ignore:only_variable_string
   if $admin_listen_port == 0 {
-    fail("::varnish::admin_list_port is not a valid server port. Detected value is <${::varnish::admin_list_port}>")
+    fail("::varnish::admin_list_port is not a valid server port. Detected value is <${::varnish::admin_listen_port}>")
   }
 
   if $listen_address != undef {
