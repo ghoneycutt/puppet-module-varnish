@@ -1,0 +1,45 @@
+{
+  "name": "ghoneycutt-varnish",
+  "version": "0.1.0",
+  "author": "ghoneycutt",
+  "summary": "Manage Varnish",
+  "description": "Manage Varnish",
+  "license": "Apache-2.0",
+  "source": "https://github.com/ghoneycutt/puppet-module-varnish.git",
+  "project_page": "https://github.com/ghoneycutt/puppet-module-varnish",
+  "issues_url": "https://github.com/ghoneycutt/puppet-module-varnish/issues",
+  "requirements": [
+    { "name": "puppet", "version_requirement": ">= 3.0.0 < 5.0.0" }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "6"
+      ]
+    }
+  ],
+  "dependencies": [
+    {"name":"ghoneycutt-common","version_requirement":">= 1.6.0 < 2.0.0"},
+    {"name":"puppetlabs-concat","version_requirement":">= 2.1.0 < 3.0.0"},
+    {"name":"puppetlabs-stdlib","version_requirement":">= 4.6.0 < 6.0.0"}
+  ]
+}
